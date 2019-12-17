@@ -38,21 +38,6 @@ export const asyncRouterMap = [
         ]
       },
       {
-        path: '/task',
-        component: RouteView,
-        redirect: '/task/taskList',
-        name: 'task',
-        meta: { title: '任务管理', icon: 'project', keepAlive: false, permission: ['tasks'] },
-        children: [
-          {
-            path: '/task/taskList',
-            name: 'TaskList',
-            component: () => import('@/views/task/TaskList'),
-            meta: { title: '任务列表', permission: ['taskList'] }
-          }
-        ]
-      },
-      {
         path: '/auth',
         component: RouteView,
         redirect: '/auth/authList',
