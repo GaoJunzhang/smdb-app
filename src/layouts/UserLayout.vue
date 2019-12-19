@@ -5,7 +5,7 @@
         <div class="header">
           <a href="/">
             <img src="~@/assets/logo.png" class="logo" alt="logo">
-            <span class="title">资源管理系统</span>
+            <span class="title">XX管理系统</span>
           </a>
         </div>
         <div class="desc">
@@ -16,7 +16,7 @@
 
       <div class="footer">
         <div class="copyright">
-          Copyright &copy; 2019 上海唯师科技有限公司
+          Copyright &copy; 2020 GaoJunZhang
         </div>
       </div>
     </div>

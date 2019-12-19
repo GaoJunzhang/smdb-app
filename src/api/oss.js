@@ -1,6 +1,6 @@
 import { axios } from '@/utils/request'
 const ossApi = {
-  uploadOss: '/zboot/oss/uploadOss',
+  uploadFile: '/zboot/oss/uploadFile',
   uploadAvatar: '/zboot/oss/uploadAvatar',
   deleteOss: '/zboot/oss/delete'
 }
@@ -14,5 +14,5 @@ export function deleteOss (parameter) {
     params: parameter
   })
 }
-export const uploadOss = ossApi.uploadOss
+export const uploadFile = ossApi.uploadFile
 export const uploadAvatar = ossApi.uploadAvatar

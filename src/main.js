@@ -14,6 +14,11 @@ import './utils/filter' // global filter
 import i18n from './locales'
 import VueVideoPlayer from 'vue-video-player' // 视频播放器
 import 'video.js/dist/video-js.css'
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+Vue.use(VueQuillEditor)
 
 Vue.config.productionTip = false
 

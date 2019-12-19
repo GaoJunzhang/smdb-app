@@ -40,6 +40,10 @@ const vueConfig = {
       new ThemeColorReplacer({
         fileName: 'css/theme-colors.css',
         matchColors: getAntdSerials('#1890ff') // 主色系列
+      }),
+      new webpack.ProvidePlugin({
+        'window.Quill': 'quill/dist/quill.js',
+        'Quill': 'quill/dist/quill.js'
       })
     ],
     externals: isProd() ? prodExternals : {}

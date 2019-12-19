@@ -13,7 +13,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'V-STU',
+      default: 'SMDB',
       required: false
     },
     showTitle: {

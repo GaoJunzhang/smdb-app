@@ -95,7 +95,7 @@ export default {
       const that = this
 
       this.$refs.cropper.getCropData((data) => {
-        var file = dataURLtoFile(data, 'home_log.jpg')
+        var file = dataURLtoFile(data, 'home_log.png')
         const formData = new FormData()
         formData.append('file', file)
         axios({

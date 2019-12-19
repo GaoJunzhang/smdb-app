@@ -5,9 +5,10 @@ import notification from 'ant-design-vue/es/notification'
 import { VueAxios } from './axios'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 
+const base = '/zboot'
 // 创建 axios 实例
 const service = axios.create({
-  baseURL: '/zboot', // api base_url
+  baseURL: base, // api base_url
   timeout: 60000 // 请求超时时间
 })
 
@@ -78,4 +79,79 @@ const installer = {
 export {
   installer as VueAxios,
   service as axios
+}
+
+export const getRequest = (url, params) => {
+  const token = Vue.ls.get(ACCESS_TOKEN)
+  return service({
+    method: 'get',
+    url: `${base}${url}`,
+    params: params,
+    headers: {
+      'accessToken': token
+    }
+  })
+}
+
+export const postRequest = (url, params) => {
+  const token = Vue.ls.get(ACCESS_TOKEN)
+  return service({
+    method: 'post',
+    url: `${base}${url}`,
+    data: params,
+    transformRequest: [function (data) {
+      let ret = ''
+      for (const it in data) {
+        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+      }
+      return ret
+    }],
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'accessToken': token
+    }
+  })
+}
+
+export const putRequest = (url, params) => {
+  const token = Vue.ls.get(ACCESS_TOKEN)
+  return service({
+    method: 'put',
+    url: `${base}${url}`,
+    data: params,
+    transformRequest: [function (data) {
+      let ret = ''
+      for (const it in data) {
+        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+      }
+      return ret
+    }],
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'accessToken': token
+    }
+  })
+}
+
+export const deleteRequest = (url, params) => {
+  const token = Vue.ls.get(ACCESS_TOKEN)
+  return service({
+    method: 'delete',
+    url: `${base}${url}`,
+    params: params,
+    headers: {
+      'accessToken': token
+    }
+  })
+}
+export const uploadFileRequest = (url, params) => {
+  const token = Vue.ls.get(ACCESS_TOKEN)
+  return service({
+    method: 'post',
+    url: `${base}${url}`,
+    params: params,
+    headers: {
+      'accessToken': token
+    }
+  })
 }
