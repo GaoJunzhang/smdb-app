@@ -1,100 +1,46 @@
 <template>
   <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
     <a-form @submit="handleSubmit" :form="form">
-      <a-form-item
-        label="标题"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
+      <a-form-item>
         <a-input
           v-decorator="[
-            'name',
+            'title',
             {rules: [{ required: true, message: '请输入标题' }]}
           ]"
           name="name"
-          placeholder="给目标起个名字" />
+          placeholder="请输入标题" />
       </a-form-item>
       <a-form-item>
-        <quill-editor
-          style="height: 700px;"
-          v-model="content"
-          ref="myQuillEditor"
-          :options="editorOption"
-          @blur="onEditorBlur($event)"
-          @focus="onEditorFocus($event)"
-          @change="onEditorChange($event)">
-        </quill-editor>
-      </a-form-item>
-      <a-form-item
-        label="起止日期"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-        <a-range-picker
-          name="buildTime"
-          style="width: 100%"
-          v-decorator="[
-            'buildTime',
-            {rules: [{ required: true, message: '请选择起止日期' }]}
-          ]" />
-      </a-form-item>
-      <a-form-item
-        label="目标描述"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
         <a-textarea
           rows="4"
-          placeholder="请输入你阶段性工作目标"
+          placeholder="请输入图片描述"
           v-decorator="[
-            'description',
-            {rules: [{ required: true, message: '请输入目标描述' }]}
+            'imgDesc',
+            {rules: [{ required: true, message: '请输入图片描述' }]}
           ]" />
       </a-form-item>
-      <a-form-item
-        label="衡量标准"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
-        <a-textarea
-          rows="4"
-          placeholder="请输入衡量标准"
-          v-decorator="[
-            'type',
-            {rules: [{ required: true, message: '请输入衡量标准' }]}
-          ]" />
-      </a-form-item>
-      <a-form-item
-        label="客户"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }">
+      <a-form-item>
         <a-input
-          placeholder="请描述你服务的客户，内部客户直接 @姓名／工号"
+          placeholder="请描述文章楔子"
           v-decorator="[
-            'customer',
-            {rules: [{ required: true, message: '请描述你服务的客户' }]}
+            'wedge',
+            {rules: [{ required: true, message: '请描述文章序' }]}
           ]" />
       </a-form-item>
-      <a-form-item
-        label="邀评人"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
-        :required="false"
-      >
-        <a-input placeholder="请直接 @姓名／工号，最多可邀请 5 人" />
+      <a-form-item>
+        <a-select
+          placeholder="请选择"
+          v-decorator="[
+            'category',
+            {rules: [{ required: true, message: '请选择' }],initialValue:'1'}
+          ]" >
+          <a-select-option value="1">春</a-select-option>
+          <a-select-option value="2">夏</a-select-option>
+          <a-select-option value="3">秋</a-select-option>
+          <a-select-option value="4">冬</a-select-option>
+        </a-select>
       </a-form-item>
-      <a-form-item
-        label="权重"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
-        :required="false"
-      >
-        <a-input-number :min="0" :max="100" />
-        <span> %</span>
-      </a-form-item>
-      <a-form-item
-        label="目标公开"
-        :labelCol="{lg: {span: 7}, sm: {span: 7}}"
-        :wrapperCol="{lg: {span: 10}, sm: {span: 17} }"
-        :required="false"
-        help="客户、邀评人默认被分享"
-      >
+      <a-form-item>
         <a-radio-group v-model="value">
           <a-radio :value="1">公开</a-radio>
           <a-radio :value="2">部分公开</a-radio>
@@ -108,12 +54,19 @@
           </a-select>
         </a-form-item>
       </a-form-item>
-      <a-form-item
-        :wrapperCol="{ span: 24 }"
-        style="text-align: center"
-      >
+      <a-form-item>
         <a-button htmlType="submit" type="primary">提交</a-button>
-        <a-button style="margin-left: 8px">保存</a-button>
+      </a-form-item>
+      <a-form-item>
+        <quill-editor
+          style="height: 700px;"
+          v-model="content"
+          ref="myQuillEditor"
+          :options="editorOption"
+          @blur="onEditorBlur($event)"
+          @focus="onEditorFocus($event)"
+          @change="onEditorChange($event)">
+        </quill-editor>
       </a-form-item>
     </a-form>
   </a-card>
@@ -122,15 +75,15 @@
 <script>
 import { addArticle } from '@/api/blog'
 import { uploadFile } from '@/api/oss'
-import { Quill, quillEditor } from 'vue-quill-editor'
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-import { ImageExtend, QuillWatch } from 'quill-image-extend-module'
-import imageResize from 'quill-image-resize-module'
 import Vue from 'vue'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
-
+import * as Quill from 'quill'
+import { quillEditor } from 'vue-quill-editor'
+// import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+// import 'quill/dist/quill.bubble.css'
+import { ImageExtend, QuillWatch } from 'quill-image-extend-module'
+import imageResize from 'quill-image-resize-module'
 Quill.register('modules/ImageExtend', ImageExtend)
 Quill.register('modules/imageResize', imageResize)
 var toolbarOptions = [
@@ -154,13 +107,14 @@ var toolbarOptions = [
   ['image', 'video'] // 上传图片、上传视频
 ]
 export default {
-  name: 'BaseForm',
   components: { quillEditor },
   data () {
     return {
+      editor: null,
       uploadList: [],
       content: ``,
       editorOption: {
+        placeholder: '请输入内容',
         modules: {
           ImageExtend: {
             loading: true,
@@ -171,7 +125,6 @@ export default {
               xhr.setRequestHeader('accessToken', Vue.ls.get(ACCESS_TOKEN))
             },
             response: (res) => {
-              console.log('回传的参数', res)
               this.updateList(res.result)
               return res.result
             }
@@ -181,7 +134,6 @@ export default {
             handlers: {
               'image': function (value) {
                 if (value) {
-                  // document.querySelector('.ivu-upload .ivu-btn').click()
                   console.log('=========value========')
                   console.log(value)
                   QuillWatch.emit(this.quill.id)
@@ -195,31 +147,28 @@ export default {
         },
         theme: 'snow'
       },
-      description: '表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。',
       value: 1,
-
       // form
       form: this.$form.createForm(this)
 
     }
   },
+  computed: {
+  },
   methods: {
 
     // handler
+    init () {
+    },
     handleSubmit (e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
-          // eslint-disable-next-line no-console
-          console.log('Received values of form: ', values)
-          const article = {
-            title: this.articleTitle,
-            content: this.content,
-            category: this.category,
-            wedge: this.wedge,
-            imgDesc: this.imgDesc,
-            imgs: this.uploadList
-            // type:1,
+          const article = values
+          article.content = this.content
+          article.imgs = this.uploadList
+          if (article.title !== '9') {
+            return
           }
           addArticle(article).then(res => {
             if (res.success === true) { this.$message.info('保存成功') }
@@ -227,15 +176,28 @@ export default {
         }
       })
     },
-    onEditorBlur () {
+    onEditorReady (editor) { // 准备编辑器
+    },
+    onEditorBlur (editor) {
     }, // 失去焦点事件
-    onEditorFocus () {
+    onEditorFocus (editor) {
     }, // 获得焦点事件
-    onEditorChange (e) {
+    onEditorChange (editor) {
     }, // 内容改变事件
     updateList (url) {
       this.uploadList.push(url)
     }
+  },
+  beforeDestroy () {
+    this.editor = null
+    delete this.editor
+  },
+  mounted () {
+    setTimeout(() => {
+      this.$refs.myQuillEditor.quill.enable(true)
+      this.$refs.myQuillEditor.quill.blur()
+    }, 200)
+    // this.editor = this.$refs.myQuillEditor.quill
   }
 }
 </script>
