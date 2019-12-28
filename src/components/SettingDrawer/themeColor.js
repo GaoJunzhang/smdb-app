@@ -1,26 +1,24 @@
 import client from 'webpack-theme-color-replacer/client'
+import generate from '@ant-design/colors/lib/generate'
+
 export default {
-  primaryColor: '#1890ff',
   getAntdSerials (color) {
     // 淡化（即less的tint）
-    var lightens = new Array(9).fill().map((t, i) => {
+    const lightens = new Array(9).fill().map((t, i) => {
+      console.log('张高俊', color)
       return client.varyColor.lighten(color, i / 10)
     })
-    // 此处为了简化，采用了darken。实际按color.less需求可以引入tinycolor, colorPalette变换得到颜色值
-    var darkens = new Array(6).fill().map((t, i) => {
-      return client.varyColor.darken(color, i / 10)
-    })
-    return lightens.concat(darkens)
+    // colorPalette变换得到颜色值
+    const colorPalettes = generate(color)
+    return lightens.concat(colorPalettes)
   },
   changeColor (newColor) {
-    var lastColor = this.lastColor || this.primaryColor
     var options = {
-      cssUrl: '/css/theme-colors.css',
-      oldColors: this.getAntdSerials(lastColor), // current colors array. The same as `matchColors`
-      newColors: this.getAntdSerials(newColor) // new colors array, one-to-one corresponde with `oldColors`
+      newColors: this.getAntdSerials(newColor), // new colors array, one-to-one corresponde with `matchColors`
+      changeUrl (cssUrl) {
+        return `/${cssUrl}` // while router is not `hash` mode, it needs absolute path
+      }
     }
-    var promise = client.changer.changeColor(options)
-    this.lastColor = lastColor
-    return promise
+    return client.changer.changeColor(options, Promise)
   }
 }

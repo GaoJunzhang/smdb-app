@@ -78,21 +78,18 @@
 
     </a-row>
     <avatar-modal ref="modal" @ok="handelAvatarOk"/>
-    <SettingDrawer ref="setting"></SettingDrawer>
   </div>
 </template>
 
 <script>
-import { colorList, updateTheme } from '@/components/SettingDrawer/settingConfig'
+import { colorList } from '@/components/SettingDrawer/settingConfig'
 import AvatarModal from './AvatarModal'
 import { mapGetters } from 'vuex'
 import { mixin } from '@/utils/mixin'
-import SettingDrawer from '@/components/SettingDrawer/SettingDrawer'
-// import { updateTheme, updateColorWeak, colorList } from './settingConfig'
+import { getThemeColor, changeAntdTheme } from 'dynamic-antd-theme'
 export default {
   components: {
-    AvatarModal,
-    SettingDrawer
+    AvatarModal
   },
   mixins: [mixin],
   data () {
@@ -137,7 +134,7 @@ export default {
     changeColor (color) {
       if (this.primaryColor !== color) {
         this.$store.dispatch('ToggleColor', color)
-        updateTheme(color)
+        changeAntdTheme(getThemeColor(color))
       }
     }
   },
