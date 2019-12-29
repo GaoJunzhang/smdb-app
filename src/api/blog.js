@@ -1,10 +1,10 @@
-import { getRequest, postRequest, putRequest, deleteRequest } from '@/utils/request'
+import { getRequest, postRequest, deleteRequest } from '@/utils/request'
 
 /**
  * article
  */
 export const addArticle = (params) => {
-  return putRequest('/blog/es/article/add', params)
+  return postRequest('/blog/es/article/add', params)
 }
 export const deleteArticle = (id) => {
   return deleteRequest(`/blog/es/article/delete/${id}`)
@@ -12,8 +12,8 @@ export const deleteArticle = (id) => {
 export const flushallArticle = () => {
   return deleteRequest(`/blog/es/article/flushall`)
 }
-export const articlesLikeTitle = (params) => {
-  return getRequest('/blog/article/articlesByTitle', params)
+export const getAllByPage = (params) => {
+  return getRequest('/blog/es/article/getAllByPage', params)
 }
 export const articleByUid = (uid) => {
   return getRequest(`/blog/article/articleByUid/${uid}`)

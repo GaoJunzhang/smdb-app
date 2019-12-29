@@ -79,9 +79,9 @@ import Vue from 'vue'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import * as Quill from 'quill'
 import { quillEditor } from 'vue-quill-editor'
-// import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
-// import 'quill/dist/quill.bubble.css'
+import 'quill/dist/quill.bubble.css'
 import { ImageExtend, QuillWatch } from 'quill-image-extend-module'
 import imageResize from 'quill-image-resize-module'
 Quill.register('modules/ImageExtend', ImageExtend)
@@ -167,9 +167,7 @@ export default {
           const article = values
           article.content = this.content
           article.imgs = this.uploadList
-          if (article.title !== '9') {
-            return
-          }
+          console.log('参数', article)
           addArticle(article).then(res => {
             if (res.success === true) { this.$message.info('保存成功') }
           })

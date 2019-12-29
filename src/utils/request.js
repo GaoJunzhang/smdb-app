@@ -83,6 +83,7 @@ export {
 
 export const getRequest = (url, params) => {
   const token = Vue.ls.get(ACCESS_TOKEN)
+  console.log('请求头', base + url)
   return service({
     method: 'get',
     url: `${base}${url}`,
