@@ -86,7 +86,8 @@ import { colorList } from '@/components/SettingDrawer/settingConfig'
 import AvatarModal from './AvatarModal'
 import { mapGetters } from 'vuex'
 import { mixin } from '@/utils/mixin'
-import { getThemeColor, changeAntdTheme } from 'dynamic-antd-theme'
+import { getThemeColor, changeAntdTheme } from '@/components/Dynamictheme/util'
+import { changeTheme } from '@/api/user'
 export default {
   components: {
     AvatarModal
@@ -120,12 +121,18 @@ export default {
       this.option.img = v
     },
     handelThenChange (checked) {
-      console.log(checked)
+      let navTheme = 'light'
       if (checked) {
-        this.$store.dispatch('ToggleTheme', 'dark')
-      } else {
-        this.$store.dispatch('ToggleTheme', 'light')
+        navTheme = 'dark'
       }
+      changeTheme({ navTheme: navTheme }).then(res => {
+        if (res.success === true) {
+          this.$store.dispatch('ToggleTheme', navTheme)
+          this.$message.info('修改成功')
+        } else {
+          this.$message.error('请稍后再试')
+        }
+      })
     },
     colorFilter (color) {
       const c = colorList.filter(o => o.color === color)[0]
@@ -134,7 +141,12 @@ export default {
     changeColor (color) {
       if (this.primaryColor !== color) {
         this.$store.dispatch('ToggleColor', color)
-        changeAntdTheme(getThemeColor(color))
+        changeTheme({ theme: color }).then(res => {
+          if (res.success) {
+            changeAntdTheme(getThemeColor(color))
+            this.$message.info('修改成功')
+          }
+        })
       }
     }
   },

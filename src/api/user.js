@@ -8,7 +8,8 @@ const userApi = {
   changePassword: '/user/changePassword',
   resetPassword: '/user/resetPassword',
   mounthUsers: '/user/mounthUsers',
-  sumUser: '/user/sumUser'
+  sumUser: '/user/sumUser',
+  changeTheme: '/user/changeTheme'
 }
 
 export default userApi
@@ -79,5 +80,19 @@ export function changePassword (parameter) {
     url: userApi.changePassword,
     method: 'post',
     data: parameter
+  })
+}
+export function changeTheme (parameter) {
+  return axios({
+    url: userApi.changeTheme,
+    method: 'post',
+    data: parameter,
+    transformRequest: [function (data) {
+      let ret = ''
+      for (const it in data) {
+        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+      }
+      return ret
+    }]
   })
 }

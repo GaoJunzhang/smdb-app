@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import { getThemeColor, changeAntdTheme } from 'dynamic-antd-theme'
 import {
   SIDEBAR_TYPE,
   DEFAULT_THEME,
@@ -66,7 +65,6 @@ const app = {
     },
     TOGGLE_COLOR: (state, color) => {
       Vue.ls.set(DEFAULT_COLOR, color)
-      changeAntdTheme(getThemeColor(color))
       state.color = color
     },
     TOGGLE_WEAK: (state, flag) => {

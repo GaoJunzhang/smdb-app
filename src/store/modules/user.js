@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import { login, getInfo, logout } from '@/api/login'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
+import { ACCESS_TOKEN, DEFAULT_THEME, DEFAULT_COLOR } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
+import { getThemeColor, changeAntdTheme } from '@/components/Dynamictheme/util'
 
 const user = {
   state: {
@@ -71,6 +72,13 @@ const user = {
             commit('SET_ROLES', result.role)
             commit('SET_INFO', result)
             commit('SET_MENUS', result.menus)
+            if (result.themeColor && result.themeColor !== '' && result.themeColor !== null) {
+              changeAntdTheme(getThemeColor(result.themeColor))
+              Vue.ls.set(DEFAULT_COLOR, result.themeColor)
+            }
+            if (result.navTheme && result.navTheme !== '' && result.navTheme !== null) {
+              Vue.ls.set(DEFAULT_THEME, result.navTheme)
+            }
           } else {
             reject(new Error('getInfo: roles must be a non-null array !'))
           }
