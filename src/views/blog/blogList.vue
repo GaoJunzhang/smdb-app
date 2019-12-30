@@ -76,9 +76,7 @@
             <a slot="title" href="https://vue.ant.design/">{{ item.title }}</a>
             <template slot="description">
               <span>
-                <a-tag>Ant Design</a-tag>
-                <a-tag>设计语言</a-tag>
-                <a-tag>蚂蚁金服</a-tag>
+                <a-button type="danger" icon="delete" @click="handleDelChange(item.id)"/>
               </span>
             </template>
           </a-list-item-meta>
@@ -95,7 +93,7 @@
 <script>
 import { TagSelect, StandardFormRow, ArticleListContent } from '@/components'
 import IconText from './IconText'
-import { getAllByPage } from '@/api/blog'
+import { getAllByPage, deleteArticle } from '@/api/blog'
 const TagSelectOption = TagSelect.Option
 const owners = [
   {
@@ -141,6 +139,15 @@ export default {
     this.getList()
   },
   methods: {
+    handleDelChange (id) {
+      console.log('shanchu', id)
+      deleteArticle(id).then(res => {
+        if (res.success) {
+          this.$message.info('删除成功')
+          this.getList()
+        }
+      })
+    },
     handleChange (value) {
       console.log(`selected ${value}`)
     },

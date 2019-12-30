@@ -146,8 +146,8 @@
 import Icons from './Icons'
 import { saveAuth } from '@/api/menu'
 const formItemLayout = {
-  labelCol: { span: 3 },
-  wrapperCol: { span: 18 }
+  labelCol: { span: 4 },
+  wrapperCol: { span: 20 }
 }
 export default {
   name: 'MenuForm',
